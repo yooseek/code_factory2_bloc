@@ -7,18 +7,14 @@ class DioRepository {
   final Dio dio;
   final FlutterSecureStorage secureStorage;
 
-  const DioRepository({
-    required this.dio,
+  const DioRepository({required this.dio,
     required this.secureStorage,
   });
 
   Dio get getDio => dio;
 
-  @override
-  List<Object> get props => [dio, secureStorage];
-
-  void addInterceptor(UserModelBloc userModelBloc) {
+  void addInterceptor() {
     dio.interceptors.add(CustomInterceptor(
-        storage: secureStorage, userModelBloc: userModelBloc));
+        storage: secureStorage,));
   }
 }

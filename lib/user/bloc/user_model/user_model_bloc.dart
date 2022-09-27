@@ -36,6 +36,11 @@ class UserModelBloc extends Bloc<UserModelEvent, UserModelState> {
     final accessToken = await secureStorage.read(key: ACCESS_TOKEN_KEY);
     final refreshToken = await secureStorage.read(key: REFRESH_TOKEN_KEY);
 
+    if(refreshToken == null && accessToken == null){
+      await logout(event, emit);
+      return;
+    }
+
     if (refreshToken == null || accessToken == null) {
       emit(state.copyWith(userModel: null));
       return;

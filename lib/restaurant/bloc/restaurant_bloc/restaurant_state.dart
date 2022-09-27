@@ -1,5 +1,6 @@
 part of 'restaurant_bloc.dart';
 
+
 class RestaurantState extends Equatable {
   final CursorPaginationBase response;
 

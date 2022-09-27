@@ -4,9 +4,10 @@ import 'package:code_factory2_bloc/common/bloc/go_router/go_router_bloc.dart';
 import 'package:code_factory2_bloc/common/bloc/logger.dart';
 import 'package:code_factory2_bloc/common/const/bloc_list.dart';
 import 'package:code_factory2_bloc/common/const/data.dart';
-import 'package:code_factory2_bloc/common/dio/dio_respository.dart';
+import 'package:code_factory2_bloc/common/dio/dio_network.dart';
 import 'package:code_factory2_bloc/common/secure_storage/secure_storage_repository.dart';
 import 'package:code_factory2_bloc/restaurant/respository/restaurant_repository.dart';
+import 'package:code_factory2_bloc/injector.dart';
 import 'package:code_factory2_bloc/user/bloc/user_model/user_model_bloc.dart';
 import 'package:code_factory2_bloc/user/repository/auth_repository.dart';
 import 'package:code_factory2_bloc/user/repository/user_repository.dart';
@@ -15,8 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-void main() {
+void main() async {
   Bloc.observer = Logger();
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -29,27 +31,19 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<SecureStorageRepository>(
-          create: (context) => const SecureStorageRepository(
-            flutterSecureStorage: FlutterSecureStorage(),
-          ),
+          create: (context) => SecureStorageRepository(flutterSecureStorage: injector())
         ),
         RepositoryProvider<DioRepository>(
           create: (context) => DioRepository(
-            dio: Dio(),
-            secureStorage: context.read<SecureStorageRepository>().storage,
-          ),
+            dio: injector(),
+            secureStorage: injector(),
+          )..addInterceptor(),
         ),
         RepositoryProvider<UserMeRepository>(
-          create: (context) => UserMeRepository(
-            baseUrl: 'http://$ip/user/me',
-            context.read<DioRepository>().getDio,
-          ),
+          create: (context) => injector()
         ),
         RepositoryProvider<AuthRepository>(
-          create: (context) => AuthRepository(
-            baseUrl: 'http://$ip/auth',
-            dio: context.read<DioRepository>().getDio,
-          ),
+          create: (context) => injector()
         ),
         RepositoryProvider<RestaurantRepository>(
           create: (context) => RestaurantRepository(
@@ -63,7 +57,6 @@ class MyApp extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(), //터치시 키보드 내리기
           child: Builder(
             builder: (context) {
-              context.read<DioRepository>().addInterceptor(context.read<UserModelBloc>());
               final router = context.watch<GoRouterBloc>().state;
 
               return MaterialApp.router(

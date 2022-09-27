@@ -189,7 +189,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   //               padding: EdgeInsets.only(
   //                 bottom: 8.0,
   //               ),
-  //               child: RatingCard.fromModel(model: models[index]));
+  //               child: RatingCard.fromModel(entities: models[index]));
   //         },
   //         childCount: models.length,
   //       ),

@@ -1,7 +1,7 @@
 
 import 'package:code_factory2_bloc/common/utils/data_utils.dart';
-import 'package:code_factory2_bloc/user/model/login_response_model.dart';
-import 'package:code_factory2_bloc/user/model/token_response_model.dart';
+import 'package:code_factory2_bloc/common/model/login_response_model.dart';
+import 'package:code_factory2_bloc/common/model/token_response_model.dart';
 import 'package:dio/dio.dart';
 
 class AuthRepository {

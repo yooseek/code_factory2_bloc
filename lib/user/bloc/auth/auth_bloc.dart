@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:code_factory2_bloc/common/bloc/go_router/go_router_bloc.dart';
 import 'package:code_factory2_bloc/common/view/root_tab.dart';
 import 'package:code_factory2_bloc/common/view/splash_screen.dart';
@@ -24,7 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
       notifyListeners();
     });
     
-    on<AuthLogout>(logout);
+    on<AuthLogout>(logout,
+    transformer: droppable());
   }
 
   @override
@@ -41,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     GoRoute(
       path: '/',
       name: 'home',
-      builder: (context, state) => RootTab(),
+      builder: (context, state) => const RootTab(),
       routes: [
         GoRoute(
           path: 'restaurant/:rid',
@@ -53,11 +55,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with ChangeNotifier {
     GoRoute(
         path: '/splash',
         name: 'splash',
-        builder: (context, state) => SplashScreen()),
+        builder: (context, state) => const SplashScreen()),
     GoRoute(
         path: '/login',
         name: 'login',
-        builder: (context, state) => LoginScreen()),
+        builder: (context, state) => const LoginScreen()),
     // GoRoute(
     //     path: '/basket',
     //     name: BasketScreen.routeName,

@@ -16,7 +16,7 @@ class RestaurantScreen extends StatelessWidget {
       listener: (context, state) {
         if(state.response is CursorPaginationError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('에러 발생')),
+            const SnackBar(content: Text('에러 발생')),
           );
         }
       },
@@ -34,7 +34,7 @@ class RestaurantScreen extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   // 아래와 같은 역할
-                  // context.go('/restaurant/${model.id}');
+                  // context.go('/restaurant/${entities.id}');
 
                   context.goNamed(
                     'restaurantDetail',

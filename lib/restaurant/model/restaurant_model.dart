@@ -1,6 +1,5 @@
 import 'package:code_factory2_bloc/common/model/model_with_id.dart';
 import 'package:code_factory2_bloc/common/utils/data_utils.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'restaurant_model.g.dart';

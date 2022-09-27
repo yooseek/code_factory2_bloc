@@ -1,13 +1,13 @@
 import 'package:code_factory2_bloc/common/const/data.dart';
 import 'package:code_factory2_bloc/user/bloc/user_model/user_model_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
-  final UserModelBloc userModelBloc;
 
-  CustomInterceptor({required this.storage,required this.userModelBloc,});
+  CustomInterceptor({required this.storage});
 
   // 1) 요청을 보낼 때
   // 요청이 보내질 때마다 해당 인터셉터에서
@@ -16,7 +16,7 @@ class CustomInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    print('[REQUEST] [${options.method} ${options.uri}]');
+    debugPrint('[REQUEST] [${options.method} ${options.uri}]');
 
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
@@ -101,7 +101,12 @@ class CustomInterceptor extends Interceptor {
         // provider(dio 참조) - dio(provider 참조) - provider(dio 참조) ...
 
         // dio를 참조하지 않는 프로바이더를 사용해서 logout 구현하기
-        userModelBloc.add(UserModelLogout());
+        // userModelBloc.add(UserModelLogout());
+
+        await Future.wait([
+          storage.delete(key: REFRESH_TOKEN_KEY),
+          storage.delete(key: ACCESS_TOKEN_KEY),
+        ]);
 
         return handler.reject(e);
       }

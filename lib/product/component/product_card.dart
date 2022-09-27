@@ -44,21 +44,21 @@ class ProductCard extends StatelessWidget {
   }
 
   // factory ProductCard.fromProductModel({
-  //   required ProductModel model,
+  //   required ProductModel entities,
   //   VoidCallback? onSubtract,
   //   VoidCallback? onAdd,
   // }) {
   //   return ProductCard(
-  //     id: model.id,
+  //     id: entities.id,
   //     image: Image.network(
-  //       model.imgUrl,
+  //       entities.imgUrl,
   //       fit: BoxFit.cover,
   //       width: 110,
   //       height: 110,
   //     ),
-  //     name: model.name,
-  //     detail: model.detail,
-  //     price: model.price,
+  //     name: entities.name,
+  //     detail: entities.detail,
+  //     price: entities.price,
   //     onSubtract: onSubtract,
   //     onAdd: onAdd,
   //   );
